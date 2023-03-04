@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import styled from "styled-components";
+
+import "./App.css";
+import BlogContainer from "./components/BlogContainer";
+import Modal from "./components/Modal";
+
+const AppStyled = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 function App() {
+  const [isOpened, setIsOpened] = useState(false);
+  const [modalInfo, setModalInfo] = useState({});
+
+  const openModalWindo = (item) => {
+    setModalInfo((prev) => item);
+    setIsOpened(() => true);
+  };
+
+  const closeModal = () => {
+    setIsOpened(() => false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppStyled>
+      <BlogContainer openModal={openModalWindo} />
+      {isOpened && <Modal {...modalInfo} onCloseModal={closeModal} />}
+    </AppStyled>
   );
 }
 
